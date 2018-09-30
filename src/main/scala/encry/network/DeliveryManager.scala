@@ -78,6 +78,7 @@ class DeliveryManager extends Actor with Logging {
         val newIds: Seq[(ModifierTypeId, ModifierId)] =
           h.modifiersToDownload(settings.network.networkChunkSize - currentQueue.size, currentQueue)
             .filter(modId => !cancellables.keySet.contains(key(modId._2)))
+        logInfo(s"After filter newIds: ${newIds.map(mod => Algos.encode(mod._2)).mkString(",")}")
         if (newIds.nonEmpty) newIds.groupBy(_._1).foreach {
           case (modId: ModifierTypeId, ids: Seq[(ModifierTypeId, ModifierId)]) => requestDownload(modId, ids.map(_._2))
         } else context.become(syncCycle)
@@ -205,6 +206,7 @@ class DeliveryManager extends Actor with Logging {
       Message(requestModifierSpec, Right(modifierTypeId -> modifierIds), None)
     if (settings.influxDB.isDefined)
       context.actorSelection("/user/statsSender") ! SendDownloadRequest(modifierTypeId, modifierIds)
+    logInfo(s"statusTracker.statuses: ${statusTracker.statuses.keys.mkString(",")}")
     statusTracker.statuses.keys.foreach(peer => {
       expect(peer, modifierTypeId, modifierIds)
     })

@@ -113,10 +113,10 @@ class EncryNodeViewHolder[StateType <: EncryState[StateType]] extends Actor with
                 context.actorSelection("/user/modifiersHolder") ! RequestedModifiers(modifierTypeId, Seq(pmod))
             }
         }
-        logInfo(s"Cache before(${modifiersCache.size})")
+        logInfo(s"Cache before(${modifiersCache.size}). $modifiersCache")
         computeApplications()
         if (modifiersCache.isEmpty || !nodeView.history.isHeadersChainSynced) nodeViewSynchronizer ! ContinueSync
-        logInfo(s"Cache after(${modifiersCache.size})")
+        logInfo(s"Cache after(${modifiersCache.size}). $modifiersCache")
       }
     case lt: LocallyGeneratedTransaction[EncryProposition, Transaction] => txModify(lt.tx)
     case lm: LocallyGeneratedModifier[EncryPersistentModifier] =>
