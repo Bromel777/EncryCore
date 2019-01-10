@@ -62,7 +62,7 @@ case class InfoApiRoute(readersHolder: ActorRef,
       Some(PostgresSettings(_, _, _, _, pgSave, pgRestore, _, _))) =>
         if ((levelDbSave || (levelDbRestore && (!recoveryStatus))) && (pgSave || (pgRestore && (!recoveryStatus))))
           s"LevelDrrrbhh(${if (levelDbSave) "write" else ""} ${if (levelDbRestore && (!recoveryStatus)) "read" else ""}), " +
-            s"Postgrsssses(${if (pgSave) "write" else ""} ${if (pgRestore && (!recoveryStatus)) "read" else ""})"
+            s"Postgrsssssses(${if (pgSave) "write" else ""} ${if (pgRestore && (!recoveryStatus)) "read" else ""})"
         else if (levelDbSave || (levelDbRestore && (!recoveryStatus)))
           s"LevelDb(${if (levelDbSave) "write" else ""} ${if (levelDbRestore && (!recoveryStatus)) "read" else ""})"
         else if (pgSave || (pgRestore && (!recoveryStatus)))
